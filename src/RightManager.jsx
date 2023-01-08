@@ -7,7 +7,7 @@ const RightManager = ({page}) => {
               case 0: 
                   return (
    
-                    <img className="right-img" src="/welcome.png"/>
+                    <img className="right-img" src="images/welcome.png"/>
                   
                   )
               case 1: 
@@ -20,11 +20,11 @@ const RightManager = ({page}) => {
               )
               case 4: 
               return (
-                <img className="right-img" src="/dog_train.png"/>
+                <img className="right-img" src="images/dog_train.png"/>
               )
               case 5: 
               return (
-                <img className="right-img" src="/cookie.png
+                <img className="right-img" src="images/cookie.png
                 "/>
               )
               case 9: 

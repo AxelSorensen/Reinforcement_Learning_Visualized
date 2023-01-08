@@ -1,8 +1,8 @@
 import Sketch from "react-p5";
 
-import { SF, setSF,s1,d1,s2,d2,s3,d3,s4,d4,resize, keyPressed} from "./p3_sketch";
+import { SF, setSF,s1,d1,s2,d2,s3,d3,s4,d4,resize, keyPressed} from "./p5_sketch";
 
-import { reset, setDoneCheck, setWaitAfterDone, setWaitTime } from "./Field";
+import { reset_parameters, setDoneCheck, setWaitAfterDone, setWaitTime } from "./Field";
 
 const SketchManager = ({page}) => {
     function sketchReturn(page_num) {
@@ -30,6 +30,7 @@ const SketchManager = ({page}) => {
                 break;
 
             case 8:
+              reset_parameters();
               setSF(100);
               setDoneCheck(true);
               setWaitTime(10);
@@ -53,7 +54,7 @@ const SketchManager = ({page}) => {
               setDoneCheck(true);
               setWaitTime(1);
               setWaitAfterDone(1);
-              reset();
+              reset_parameters();
               return (
                 <div className="full-sketch">
                 <div className="two-sketch">
@@ -74,7 +75,7 @@ const SketchManager = ({page}) => {
               )
               break;
             case 14:
-              reset();
+              reset_parameters();
               setSF(400);
               setDoneCheck(false);
               setWaitTime(1);

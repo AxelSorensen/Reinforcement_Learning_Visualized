@@ -252,6 +252,14 @@ function stop_training(bool) {
 }
 
 function reset() {
+  reset_q_table();
+  stop_training(true);
+  steps_history = [];
+  field.agent_position = [0,0]
+  done = false;
+}
+
+function reset_parameters() {
   alpha = 0.1;
   gamma = 0.9;
   epsilon = 0.1;
@@ -288,4 +296,4 @@ async function wait(time) {
   });
 }
 
-export {field,wait,steps,done,reward,q_learning,best_agent,naive_solution,reset_text,q_table,run_q_learning, start_training, stop_training, reset,iterations,steps_history, alpha, gamma, epsilon, setAlpha, setGamma,setEpsilon, setPlaySpeed, setIterations, waitAfterDone, waitTime, doneCheck, setDoneCheck, setWaitTime,setWaitAfterDone,setDone}
+export {field,wait,steps,done,reward,q_learning,best_agent,naive_solution,reset_text,q_table,run_q_learning, start_training, stop_training, reset,iterations,steps_history, alpha, gamma, epsilon, setAlpha, setGamma,setEpsilon, setPlaySpeed, setIterations, waitAfterDone, waitTime, doneCheck, setDoneCheck, setWaitTime,setWaitAfterDone,setDone, reset_parameters}

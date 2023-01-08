@@ -261,6 +261,7 @@ const d4 = (p5) => {
       p5.text(i * iterations/10, i * iterations/10 *(field.size * gz) / (steps_graph.length - 1), field.size * gz + 15);
     }
   }
+  p5.strokeWeight(0)
   p5.fill(255)
   p5.rect(field.size * gz+20, 0, field.size * gz+50, field.size * gz+50)
 

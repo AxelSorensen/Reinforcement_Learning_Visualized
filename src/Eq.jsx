@@ -3,7 +3,7 @@ import { MathJaxContext, MathJax } from "better-react-mathjax";
 const Eq = ({children}) => {
   return ( 
     <span>
-    <MathJaxContext hideUntilTypeset="every">
+    <MathJaxContext hideUntilTypeset="first">
     <MathJax className="math">{children}</MathJax>
     </MathJaxContext>
     </span>

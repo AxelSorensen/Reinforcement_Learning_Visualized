@@ -374,7 +374,7 @@ export const Page14 = () => {
       <li><code>epsilon = 0.1</code></li>
       <p>Let's analyze the results! If we take a look at the line graph below, we can see that the training is a bit noisy. It starts out with a large fluctuating amount of steps, and gradually settles an around around 10-11 steps per iteration.</p>
       <div className="img-container">
-        <img src="/default_graph.png"/>
+        <img src="images/default_graph.png"/>
       </div>
       <p>When running the <code>best_agent</code> function, on a previous page, we discovered that the minimum amount of steps was 9. So why does our amount of steps to reach the goal, keep fluctuating even after hitting 9 sometimes. Well, that is again because of the <code>epsilon</code> value of 0.1, forcing the agent to make random decisions 10% of the time. What might happen if we changed that to a 0? Let's find out!</p>
       <h2>Experiment #2</h2>
@@ -385,11 +385,11 @@ export const Page14 = () => {
       <p>What might we think could happen by setting <code>epsilon</code> to 0. Well, as we know this value controls the tradeoff between exploration and exploitation, and a 0 would mean full exploitation. This entails that the agent will follow the action with the best Q-value in each state. But if all the Q-values are zero, how will it know what to do? Compared to experiment #1 the agent does spend more moves on its first iteration, but after that it interestingly enough, seems to find the optimal strategy in about the same time (without the noise in the end). 
       </p>
       <div className="img-container">
-        <img src="/eps_0.png"/>
+        <img src="images/eps_0.png"/>
       </div>
       <p>It just so happens that the <code>Math.max()</code> function that we are using to choose the best action, will choose the first index if all 4 Q-values are equal. This means that the agent will start by choosing the action 'down' every time. However when it reaches the bottom of the grid, it will have updated the Q-values in each of the visited states with a negative value, and will therefore prioritize the other three options. Since the action "up" is next to "down" in the array, this action will be chosen. This process continues and in some miraculous way the agent ends up reaching the goal. Once the goal is first reached, the task is so simple and the Q-values are already updated enough, that following a strict Q-table strategy, ends up working out. If you are interested in how and why the agent explores the environment even though <code>epsilon</code> is set to 0 I urge you to go back and retrace the agents moves. Set the "play speed" to a higher value in order to keep track of what is happening, maybe you can spot the pattern. I also think it is worth it to take a look at the Q-representation, to see how the future reward is propagated back through the environment. </p>
       <div className="img-container">
-        <img src="/eps_0_q.png"/>
+        <img src="images/eps_0_q.png"/>
       </div>
       <p>
       As mentioned previously this is controlled by the discount factor <code>gamma</code>. How about we take a look at this parameter next.</p>
@@ -400,11 +400,11 @@ export const Page14 = () => {
       <li><code>epsilon = 0.1</code></li>
       <p>This time the Q-representation looks very different. The positive values are all concentrated around the goal position, with a very short falloff. Where there in experiment #2 was a long tail of positive Q-values, stretching out to the top left corner, the values in this area are now negative, and less meaningful for the agent. I say less meaningful because many of the values in the area are the same, which in turn leads the agent to make an uninformed decision.</p>
       <div className="img-container">
-        <img src="/gamma_0.1_q.png"/>
+        <img src="images/gamma_0.1_q.png"/>
       </div>
       <p>This time the Q-representation looks very different. The positive values are all concentrated around the goal position, with a very short falloff. Where there in experiment #2 was a long tail of positive Q-values, stretching out to the top left corner, the values in this area are now negative, and less meaningful for the agent. I say less meaningful because many of the values in the area are the same, which in turn leads the agent to make an uninformed decision. As you might have imagined, this has a detrimental effect on the learning process, resulting in a very noisy learning process, as we can see on the line graph below.</p>
       <div className="img-container">
-        <img src="/gamma_0.1_line.png"/>
+        <img src="images/gamma_0.1_line.png"/>
       </div>
       <p>Sometimes the agent is lucky and quickly gets to a part of the grid that it offers it more valuable information about the best action to take, and other times it wanders around in the uncertain zone. Now let's try taking a look at the learning rate, <code>alpha</code>. We have been told that it is good to learn gradually, so that the agent doesn't change its behavior strongly just from a single experience. Especially in a dynamic environment it makes sense to only teach the agent about a pattern in the world if it is observed multiple times. However I am curious about what would happen if we set <code>alpha</code> all the way to 1.</p>
       <h2>Experiment #4</h2>
@@ -414,11 +414,11 @@ export const Page14 = () => {
       <li><code>epsilon = 0.1</code></li>
       <p>With a learning rate of 1 the agent learns a lot quicker how to reach the goal. This can be seen in the line graph below. However the spikes appearing towards the end, due to the 10% chance of random actions seem to be a bit more aggressive than we have seen before.</p>
       <div className="img-container">
-        <img src="/alpha_1_line.png"/>
+        <img src="images/alpha_1_line.png"/>
       </div>
       <p>Taking a look at the Q-representation reveals a possible reason for this behavior. Notice how the path from the agent to the goal is very strong, from the starting position, but the Q-values of the far right end of the grid haven't been updated. The spikes in the learning process arise when the agent by chance wonders of into the "unknown" and stumbles around for a bit. </p>
       <div className="img-container">
-        <img src="/alpha_1_q.png"/>
+        <img src="images/alpha_1_q.png"/>
       </div>
       <p>Since the learning rate is so high, both the future reward is propagated more quickly back to the starting point, and the agent has less incentive to try other routes, since the Q-values moving towards the goal already are superior. In our static environment this might be fine, but you can see how this neglect of parts of the environment and giving too much weight to a single iteration can be problematic in other situations.</p>
       <p>And that's all I had for you! Feel free to run more of your own experiments, and get familiar with the controls. Q-learning is a wonderful, simple approach to Reinforcement Learning, however on the next page I will go introduce the <b>limits of the Q-table</b>, and when other techniques must be taken into use.</p>
@@ -432,7 +432,8 @@ export const Page15 = () => {
       <>
       <h2>Work in progress!</h2>
       <p>Thanks for reading Dad and Valentina 💜</p>
-      <p>Come back soon...</p>
+      <p>I haven't proof read anything yet, so let me know if you spotted any errors, or found certain explanations hard to comprehend. Or if you have any questions of course :)</p>
+      <p>More to come soon...</p>
       
       </>
    );

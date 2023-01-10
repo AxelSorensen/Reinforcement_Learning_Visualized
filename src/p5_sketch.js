@@ -1,7 +1,7 @@
 import { field, wait, steps, reward, done, reset_text,q_table, steps_history, iterations,setDone } from "./Field";
 import { waitAfterDone } from "./Field";
 let gz = 50;
-let SF = 100;
+let SF = 50;
 
 function setSF(val) {
   SF = val;
@@ -13,22 +13,23 @@ let graphScale = 2;
 let winText = ['Well done!', 'Great job!', 'Awesome!', 'What a natural!', 'Still here?', 'Ok, time to get back..', "You just won't quit will you?", "Come on, I don't have all day!", "I admire your persistence", "Aaaand I'm out of lines..."]
 
 const s1 = (p5, canvasParentRef) => {
-  field.agent_position = [0, 0]
+  
+
+  p5.textSize(10);
+  field.agent_position = [0, 0];
   winCount = 0;
-  // use parent to render the canvas in this ref
-  // (without that p5 will render the canvas outside of your component)
-  let sketchDiv = document.getElementById('right-sketch');
-  p5.createCanvas(sketchDiv.offsetWidth - SF, sketchDiv.offsetWidth - SF).parent(canvasParentRef);
-  p5.textSize(20)
-  p5.textAlign(p5.CENTER)
+  p5.createCanvas(canvasParentRef.offsetWidth-SF, canvasParentRef.offsetWidth-SF).parent(canvasParentRef);
+
 };
 
 const d1 = async (p5) => {
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0];
+  p5.resizeCanvas((sketchDiv.offsetWidth - SF), (sketchDiv.offsetWidth - SF));
   p5.strokeWeight(1)
   p5.background(255)
-  let sketchDiv = document.getElementById('right-sketch');
   p5.scale((sketchDiv.offsetWidth - SF) / 500)
-  p5.translate(50, 50)
+  p5.translate(50, 50);
+  
 
   for (let i = 0; i < field.size; i++) {
     for (let j = 0; j < field.size; j++) {
@@ -73,21 +74,24 @@ const d1 = async (p5) => {
 
 };
 
-const s2 = (p5, canvasParentRef) => {
+const s2 = (p5,canvasParentRef) => {
+  
   p5.textSize(10);
   field.agent_position = [0, 0];
   winCount = 0;
   // use parent to render the canvas in this ref
   // (without that p5 will render the canvas outside of your component)
-  let sketchDiv = document.getElementById('right-sketch');
-  p5.createCanvas(sketchDiv.offsetWidth - SF, sketchDiv.offsetWidth - SF).parent(canvasParentRef);
+  p5.createCanvas(canvasParentRef.offsetWidth-SF, canvasParentRef.offsetWidth-SF).parent(canvasParentRef);
+
+
   p5.textAlign(p5.LEFT)
 };
 
 const d2 = async (p5) => {
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0];
+  p5.resizeCanvas((sketchDiv.offsetWidth - SF), (sketchDiv.offsetWidth - SF));
   p5.strokeWeight(1)
   p5.background(255)
-  let sketchDiv = document.getElementById('right-sketch');
   p5.scale((sketchDiv.offsetWidth - SF) / 500)
   p5.translate(50, 50)
 
@@ -141,21 +145,23 @@ const d2 = async (p5) => {
 
 
 
-const s3 = (p5, canvasParentRef) => {
+const s3 = (p5,canvasParentRef) => {
+  
   field.agent_position = [0, 0]
   winCount = 0;
   // use parent to render the canvas in this ref
   // (without that p5 will render the canvas outside of your component)
-  let sketchDiv = document.getElementById('right-sketch');
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0]
   p5.createCanvas(sketchDiv.offsetWidth - SF, sketchDiv.offsetWidth - SF).parent(canvasParentRef);
   p5.textSize(14)
   p5.textAlign(p5.LEFT)
 };
 
 const d3 = (p5) => {
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0];
+  p5.resizeCanvas((sketchDiv.offsetWidth - SF), (sketchDiv.offsetWidth - SF));
   p5.strokeWeight(1)
   p5.background(255)
-  let sketchDiv = document.getElementById('right-sketch');
   p5.scale((sketchDiv.offsetWidth - SF) / 500)
   p5.translate(50, 50);
   p5.fill(0);
@@ -202,16 +208,17 @@ const s4 = (p5, canvasParentRef) => {
   winCount = 0;
   // use parent to render the canvas in this ref
   // (without that p5 will render the canvas outside of your component)
-  let sketchDiv = document.getElementById('right-sketch');
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0];
   p5.createCanvas(sketchDiv.offsetWidth - SF, sketchDiv.offsetWidth - SF).parent(canvasParentRef);
   p5.textSize(14)
   p5.textAlign(p5.LEFT)
 };
 
 const d4 = (p5) => {
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0];
+  p5.resizeCanvas((sketchDiv.offsetWidth - SF), (sketchDiv.offsetWidth - SF));
   p5.strokeWeight(1)
   p5.background(255)
-  let sketchDiv = document.getElementById('right-sketch');
   p5.scale((sketchDiv.offsetWidth - SF) / 500)
   p5.translate(50, 50);
   p5.fill(0);
@@ -271,10 +278,12 @@ const d4 = (p5) => {
 
 
 const resize = (p5) => {
-  let sketchDiv = document.getElementById('right-sketch');
+  let sketchDiv = document.getElementsByClassName('full-sketch')[0];
   p5.resizeCanvas((sketchDiv.offsetWidth - SF), (sketchDiv.offsetWidth - SF));
 
 }
+
+
 
 const keyPressed = (p5) => {
   switch (p5.key) {

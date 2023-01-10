@@ -6,9 +6,9 @@ const RightManager = ({page}) => {
         switch (page_num) {
               case 0: 
                   return (
-   
+                    
                     <img className="right-img" src="images/welcome.png"/>
-                  
+
                   )
               case 1: 
               return (
@@ -46,9 +46,9 @@ const RightManager = ({page}) => {
         }
     }
     return ( 
-        <div className="center">
+      <>
         {contentReturn(page)}
-        </div>
+      </>
      );
 }
 

@@ -14,6 +14,7 @@ import RightManager from './RightManager'
 function App() {
   const [page, setPage] = useState(0)
 
+
   const changePage = (direction) => {
     setPage(page+direction);
   }
@@ -22,14 +23,14 @@ function App() {
     const contentDiv = document.getElementById('content');
     contentDiv.scrollTop = 0;
 
+
     stop_training(true);
   },[page])
-
-
 
   return (
     <div id="App">
       <div id='left'>
+        <div id='left-content'>
         <div id='header'>
           <h1>Reinforcement Learning Visualized</h1>
           <p id='byline'>Written and programmed by Axel Sorensen</p>
@@ -43,13 +44,16 @@ function App() {
             <div id='backward' onClick={()=> changePage(1)}>&#62;
             </div>
         </div>
+        </div>
       </div>
-      <div id='right-content'>
-        <RightManager page={page}/>
-        </div>
-        <div id='right-sketch'>
+      <div id='right'>
+        <div id='right-container'>
           <SketchManager page={page}/>
+          <RightManager page={page}/>
         </div>
+
+        </div>
+
 
       
 
@@ -57,4 +61,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

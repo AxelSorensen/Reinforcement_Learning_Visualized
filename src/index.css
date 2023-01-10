@@ -564,6 +564,21 @@ li {
     width: 50vw;
   }
 
+  h1 {
+    font-size: 14px;
+    opacity: .5;
+    margin-bottom: 0;
+    line-height: 12px;
+    font-weight: 100;
+  }
+
+  #byline {
+    font-size: 10px;
+    margin-bottom: 0;
+    opacity: 0.5;
+   
+  }
+
 
 
 }
@@ -596,5 +611,39 @@ li {
     color: white;
     background-color: rgb(138, 10, 138);
 
+  }
+  .red:hover {
+    background-color: rgb(223, 65, 65);
+  }
+  
+  .red:active {
+    background-color: rgb(201, 57, 57);
+  }
+  
+  .blue:hover {
+    background-color: rgb(65, 141, 223);
+  }
+  
+  .blue:active {
+    background-color:rgb(53, 119, 190);
+  }
+  
+  
+  .grey:hover {
+    background-color: rgb(100, 100, 100);
+  
+  }
+  
+  .grey:active {
+    background-color: rgb(80, 80, 80);
+  
+  }
+  
+  .green:hover {
+    background-color: rgb(65, 196, 102);
+  }
+  
+  .green:active {
+    background-color: rgb(56, 170, 89);
   }
 }

@@ -13,7 +13,6 @@
 
 body {
 
--webkit-tap-highlight-color: transparent; /* for removing the highlight */
   overscroll-behavior: none;
   overflow: hidden;
   height: 100%;
@@ -222,17 +221,12 @@ p {
 
 }
 
-.img-container {
-  display: grid;
 
-}
 
 img {
-  width: 80%;
-  margin: auto;
+  width: 20vw;
   border-radius: 5px;
   border: 2px solid #2d2d2d;
-  margin-bottom: 20px;
 }
 
 /* removes border form images */
@@ -556,37 +550,10 @@ li {
   }
 
   #right-container {
-    height: 50vw;
-    width: 50vw;
-  }
-
-}
-
-@media screen and (max-width: 440px) {
-
-  #right-container {
-    height: 80vw;
-    width: 80vw;
+    height: 60vw;
+    width: 60vw;
   }
 
 
-}
 
-@media (pointer:none), (pointer:coarse) {
-
-  #footer div:hover {
-    background-color: #f3f3f3;
-  }
-
-  #footer div:active {
-    background-color: #e7e7e7;
-  }
-
-  .codeBtn:hover {
-    background-color: rgb(175, 13, 175);
-  }
-
-  .codeBtn:active {
-    background-color: rgb(138, 10, 138);
-  }
 }

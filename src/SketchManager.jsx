@@ -4,12 +4,13 @@ import { SF, setSF,s1,d1,s2,d2,s3,d3,s4,d4,resize, keyPressed} from "./p5_sketch
 
 import { reset_parameters, setDoneCheck, setWaitAfterDone, setWaitTime, wait } from "./Field";
 
+
 const SketchManager = ({page}) => {
     function sketchReturn(page_num) {
 
         switch (page_num) {
             case 3:
-                setSF(0);
+                
                 setDoneCheck(true);
                 setWaitTime(10);
                 setWaitAfterDone(1000);
@@ -20,7 +21,7 @@ const SketchManager = ({page}) => {
                 </>)
     
             case 6:
-                setSF(0);
+                
                 setDoneCheck(true);
                 setWaitTime(10);
                 setWaitAfterDone(1000);
@@ -28,7 +29,7 @@ const SketchManager = ({page}) => {
                 <div className="full-sketch"><Sketch setup={s2} draw={d2} windowResized={resize}/></div>)
 
             case 7:
-                setSF(0);
+                
                 setDoneCheck(true);
                 setWaitTime(10);
                 setWaitAfterDone(1000);
@@ -40,14 +41,14 @@ const SketchManager = ({page}) => {
 
             case 8:
               reset_parameters();
-              setSF(0);
+              
               setDoneCheck(true);
               setWaitTime(10);
               setWaitAfterDone(1000);
               return <Sketch className='full-sketch' setup={s2} draw={d2} windowResized={resize}/>
        
             case 11:
-              setSF(0);
+              
               setDoneCheck(true);
               setWaitTime(10);
               setWaitAfterDone(1000);
@@ -58,7 +59,7 @@ const SketchManager = ({page}) => {
              
               </> )
             case 12:
-              setSF(0);
+              
               setDoneCheck(true);
               setWaitTime(1);
               setWaitAfterDone(1);
@@ -70,7 +71,7 @@ const SketchManager = ({page}) => {
                 </>
               )
             case 13:
-                setSF(0);
+                
                 setDoneCheck(true);
                 setWaitAfterDone(1000);
               return (
@@ -79,7 +80,6 @@ const SketchManager = ({page}) => {
               <Sketch setup={s3} draw={d3} windowResized={resize}/>
               </>
               )
-              break;
             case 14:
               reset_parameters();
               setDoneCheck(false);
@@ -92,7 +92,17 @@ const SketchManager = ({page}) => {
               <Sketch className='full-sketch' setup={s4} draw={d4} windowResized={resize}/>
               <Sketch className='full-sketch' setup={s3} draw={d3} windowResized={resize}/>
               </> )
-              break;
+            // case 21:
+            //   reset_parameters();
+            //   setDoneCheck(false);
+            //   setWaitTime(1);
+            //   setWaitAfterDone(0);
+            //   return (
+            //   <>
+   
+            //   <Sketch className='full-sketch' setup={s2} draw={d2} windowResized={resize}/>
+
+            //   </> )
             default:
                 break;
         }

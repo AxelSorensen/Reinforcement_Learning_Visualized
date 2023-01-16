@@ -3,7 +3,8 @@ import Code from "./Code";
 import Eq from "./Eq";
 import Quiz from "./Quiz";
 import {c1,c2,c3,c4,c5,c6,c7} from './code-snippets';
-import { field, naive_solution,q_learning,best_agent,run_q_learning,start_training,stop_training,reset,iterations, setAlpha,setEpsilon,setGamma,setIterations,setPlaySpeed, alpha, gamma, epsilon, waitTime } from "./Field";
+import { field, naive_solution,q_learning,best_agent,run_q_learning,start_training,stop_training,reset,iterations, setAlpha,setEpsilon,setGamma,setIterations,setPlaySpeed, alpha, gamma, epsilon, waitTime, deep_q_learning, best_deep_agent, stop_deep_training, deep_reset } from "./Field";
+
 const Content = ({page}) => {
     
 
@@ -11,53 +12,49 @@ const Content = ({page}) => {
         switch (page_num) {
             case 0:
                 return <Page0/>
-                break;
             case 1:
                 return <Page1/>
-                break;
             case 2:
-                return <Page2/>
-                break;
+                return <Page2/>               
             case 3:
-                return <Page3/>
-                break;
+                return <Page3/>               
             case 4:
-                return <Page4/>
-                break;
+                return <Page4/>               
             case 5:
-                return <Page5/>
-                break;
+                return <Page5/>                
             case 6:
-                return <Page6/>
-                break;
+                return <Page6/>                
             case 7:
-                return <Page7/>
-                break;
+                return <Page7/>               
             case 8:
-              return <Page8/>
-              break;
+                return <Page8/>             
             case 9:
-              return <Page9/>
-              break;
+                return <Page9/>             
             case 10:
-              return <Page10/>
-              break;
+                return <Page10/>            
             case 11:
-              return <Page11/>
-              break;
+                return <Page11/>            
             case 12:
-            return <Page12/>
-            break;
+                return <Page12/>
             case 13:
-            return <Page13/>
-            break;
+                return <Page13/>
             case 14:
-            return <Page14/>
-            break;
+                return <Page14/>
             case 15:
-            return <Page15/>
+                return <Page15/>
+            case 16:
+                return <Page16/>
+            case 17:
+                return <Page17/>
+            case 18:
+                return <Page18/>
+            case 19:
+              return <Page19/>
+            case 20:
+              return <Page20/>
             default:
-                break;
+              break;
+              
         }
     }
     
@@ -77,7 +74,7 @@ export const Page0 = () => {
     
         <p>Hey there! And welcome to this interactive and visual introduction to <b>Reinforcement Learning</b>. I am an active learner myself and have found that being able to interact and experiment with the concepts I find tricky always helps me understand better. My hope is that this way of learning will be useful for you as well, and that we can uncover the fundamentals of Deep Learning together. 
         </p>
-        <p>I will start by introducing the basics of Reinforcement Learning (RL) and then build upon these ideas, in order to explore more complex topics. This report will exhibit a technical perspective and code snippets will be presented and explained throughout the report in order to gain insight into what is happening behind the scenes. I find easy accessability important and therefore this entire report including RL examples is coded in plain <b>Javascript.</b> There already exists extensive material on Reinforcement Learning online, but most using the Python programming language and incorporating third party libraries such as Brain.js or Open AI's 'Gym'. 
+        <p>I will start by introducing the basics of Reinforcement Learning (RL) and then build upon these ideas, in order to explore more complex topics. This report will exhibit a technical perspective and code snippets will be presented and explained throughout the report in order to gain insight into what is happening behind the scenes. I find easy accessability important and therefore this entire report including RL examples is coded in plain <b>Javascript.</b> There already exists extensive material on Reinforcement Learning online, but most using the Python programming language and incorporating third party libraries such as 'DeepMind Lab' or Open AI's 'Gym'. 
         Although these libraries are very helpful and optimized for performance, they tend to hide most of the logic going on in the background.
         </p> 
         <p><b>My goal</b> is to approach the learning process from a very fundamental angle, and thereby really understand which factors influence RL and how these might be varied in order to obtain different results. The space on the right will be utilized to present visualizations, experiments, and interactive content that you can play around with along the way. And that's it, let's begin!
@@ -230,7 +227,7 @@ export const Page9 = () => {
 
       <p>In our simple GridWorld, the <b>state is dependent on the position of the agent only</b>, so the number of possible states is defined as the size of the grid squared (in our case that is 64 different states). The function <code>get_number_of_states</code> returns just that.</p>
       <Code code={c4}/>
-      <p>Of course in a more complex environment there might be a larger amount of possible actions. In our simple Grid World the goal is always placed in the same spot, but if we allowed this to move as well, we would suddenly need <b>8^4 = 4096 states</b> to represent all possible combinations of agent and goal position. Counting the state isn't to hard, but how can we keep track of it as the game progresses.
+      <p>Of course in a more complex environment there might be a larger amount of possible actions. Counting the state isn't to hard, but how can we keep track of it as the game progresses.
       Well, instead of writing a long list of if-statements checking for all possible positions, the following code represents each possible state with a unique number. </p>
       <Code code={c5}/>
       <p>Go ahead, look a bit closer, it took me a while to see it as first too. The agents x position is multiplied by the size of the grid and summed with the y position. Think you've got it covered? Ok, how about a little quiz then? *Remember that the position is zero-based, so even though there are 8 squares in the grid, the x and y positions <b>range from 0-7</b>.
@@ -339,7 +336,7 @@ export const Page14 = () => {
   return ( 
       <>
       <h2>Time to play!</h2>
-      <p><b>You made it!</b> We've come a long way since we started, and now its time to do some experimenting. We have our environment setup, the logic of our agent programmed, and our trusted Q-table to guide the way. Have you ever dreamt of steering a spaceship? Well, I've got the next best thing! What you see below are your very own controls. With this set of parameters you will be able to experiment with the number of iterations to run, the values of <code>alpha</code> , <code>epsilon</code> and <code>gamma</code>, and the speed at which the training is visualized. I have added a third graphic on the right. It's a line graph depicting the number of moves made to reach the goal for each iteration. Together with the Q-representation, this will be a helpful indication of the agents progress. And that's it! Go ahead and take it for a spin. In the meantime I will do some experiments of my own so we can meet at the next paragraph and compare notes. *Pssst setting the "play speed" to 0 will train the agent instantly, so you don't have to wait for the visuals to play out. And remember to "reset" the simulation so you don't train on top of the previous training, unless that is what you want of course.
+      <p>We've been through the theory, now its time to do some experimenting. We have our environment setup, the logic of our agent programmed, and our trusted Q-table to guide the way. Have you ever dreamt of steering a spaceship? Well, I've got the next best thing! What you see below are your very own controls. With this set of parameters you will be able to experiment with the number of iterations to run, the values of <code>alpha</code> , <code>epsilon</code> and <code>gamma</code>, and the speed at which the training is visualized. I have added a third graphic on the right. It's a line graph depicting the number of moves made to reach the goal for each iteration. Together with the Q-representation, this will be a helpful indication of the agents progress. And that's it! Go ahead and take it for a spin. In the meantime I will do some experiments of my own so we can meet at the next paragraph and compare notes. *Pssst setting the "play speed" to 0 will train the agent instantly, so you don't have to wait for the visuals to play out. And remember to "reset" the simulation so you don't train on top of the previous training, unless that is what you want of course.
       </p>
       <div className="controls">
         <div className="control">
@@ -430,11 +427,124 @@ export const Page15 = () => {
 
   return ( 
       <>
-      <h2>Work in progress!</h2>
-      <p>Thanks for reading Dad and Valentina 💜</p>
-      <p>I haven't proof read anything yet, so let me know if you spotted any errors, or found certain explanations hard to comprehend. Or if you have any questions of course :)</p>
-      <p>More to come soon...</p>
+      <h2>The limits of the Q-table</h2>
+      <p>Although the Q-learning algorithm is powerful, simply storing a Q-value for each state/action pair isn't always plausible. When the number of possible states grows bigger, it requires an infinitely large Q-table to store the values. This is both computationally inefficient, and the time it would take to explore and learn from every state becomes unmanageable. Take for example our beloved Grid World. So far the state has only been dependent on the position of the player, while the goal has been placed in a fixed position. Say we allow the goal position to vary as well, that's not too much to ask is it? Well, instead of only 8^2 = 64  states, we would suddenly need 8^4 = 4096 states to represent all possible combinations of agent and goal positions. You can see where this goes, and that is assuming that the agent moves in a discrete manner, on the grid. If we allow our agent to move freely (which is the case in most real world applications) the amount of possible states becomes infinite.</p>
+      <p>Well, that doesn't sound to good, so how do we go about solving it. Let me introduce you to <b>Deep Q learning</b>. This type of Q-learning replaces the Q-table with a neural network. Instead of mapping a Q-value to each state/action pair it attempts to estimate a Q-value for each action, given the state as input. Let me tell you more about that on the following pages.</p>
       
       </>
    );
 }
+
+export const Page16 = () => {
+
+  return ( 
+      <>
+      <h2>Neural Networks: A quick recap</h2>
+      <p>As mentioned, the key part of Deep Q Learning is using a neural network to inform the agents decisions. I will save the inner workings of such a network for a future tutorial, but let me do a quick recap. A neural network is a digital architecture of <b>artificial neurons</b>, inspired by those in our own brain. These artificial neurons however are a bit simpler. They take in an input, do some math, and produce an output. This might seem quite insignificant, but the power of the neural network becomes clear when multiple layers of neurons are connected. These networks are great at solving 'easy for humans / hard for computers' types of problems, like recognizing a cat or reading your poor handwriting (well the last one might be hard even for a human). So how do these networks learn? We need to teach them! But not in the same way as with our reinforcement learning agent. A neural network consists of an input layer, an output layer and a number of hidden layers in between, consisting of artificial neurons. The neurons of each layer are connected to the each neuron of the next layer. Each connection has a certain weight, which controls how much the value of the previous neuron affects the next one. All the values being fed into each neuron, are summed and a certain function inside the neuron, decides whether its degree of activation. In this way the input values are fed forward into the network, resulting in a final output. Given a specific input, <b>changing the weights of the connections will affect the output</b>. If we know the desired output/target given this input, we can calculate the difference between the networks prediction and the ground truth, also referred to as the loss function. This will give us an indication of how far we are from the correct prediction and in which way we should update the weights in order to improve our prediction. Given enough training data and updating of the weights, a neural network will learn to associate an input with a desired target, even though the exact values of this input might vary slightly. In this way, the neural network is able to learn the underlying pattern and generalize to unseen examples of the input data.</p>
+      <p>Did I say quick recap? Sorry, I got carried away. There is still much more to say about neural networks and how the learning process can be influenced, however I will move on to their application in Deep Q-learning next.</p>
+      </> 
+   );
+}
+
+export const Page17 = () => {
+
+  return ( 
+      <>
+      <h2>Introducing Deep Q-learning</h2>
+      <p className="no-bottom">So how do we train these neural networks in our reinforcement learning use case? Let us take a look at that Bellman Equation again: </p>
+      <div className="math-inline-container">
+        <Eq>
+      <Eq>{"\\(\ newQ(s_{t},a_{t})\\)"}</Eq> = <span className="eq_2"><Eq>{"\\(\ Q(s_{t},a_{t})\\)"}</Eq></span> + <Eq>{"\\(\ \\alpha\\)"}</Eq> x [<span className="eq_4"><Eq>{"\\(\ r_{t+1}\\)"}</Eq> + <Eq>{"\\(\ \\lambda\\)"}</Eq> x <Eq>{"\\(\ \max_{a} Q(s_{t+1},a_{t+1})\\)"}</Eq></span> - <span className="eq_2"><Eq>{"\\(\ Q(s_{t},a_{t})\\)"}</Eq></span>]</Eq>
+      </div>
+      <p className="no-bottom">On an earlier page I mentioned how the learning is said to have converged when the new Q-values don't differ from the current ones. This happens when the agent has fully explored the environment, and the actual true value of each action in each state is reached. In order for this to happen the green part of the green part of the equation needs to be equal to the red part. In this way the second term of the equation is <b>cancelled out</b> and the Q-value has converged. So how can we transform this into a form that a neural network can work with. Well, a neural network updates its weights based on a loss function describing the difference between its prediction of the target value and the actual target value. In our case we can view the current Q-value for a given state/action pair as the prediction and the true Q-value for the same pair as the target. We can describe the loss function or the difference between the prediction and the target as:</p>
+      <div className="math-inline-container">
+        <Eq>{"\\(\L = \\sum(Q(s_{t},a_{t})\\)"}</Eq><Eq>{"\\(\-r_{t+1}+ \\lambda*\\)"}</Eq><Eq>{"\\(\max_{a} Q(s_{t+1},a_{t+1})\\)"}</Eq><Eq>{"\\(\)^2\\)"}</Eq></div>
+      <p className="no-bottom">To make the equation more manageable let's simplify the terms to:</p>
+      <div className="math-inline-container">
+        <Eq>{"\\(\L = \\sum(Q_{prediction}-Q_{target})^2\\)"}</Eq></div>
+      <p>The current state of the environment is fed into the neural network, multiplied by the weights inside, and a Q-value for each action in the given state is predicted. If we refer to the weights inside the network as <Eq>{"\\(\\theta\\)"}</Eq> we can describe how these each of these weights are updated by:</p>
+      <div className="math-inline-container">
+        <Eq>{"\\(\ \\theta_{i} = \\theta_{i} - \\alpha\\)"}</Eq><Eq>{"\\(\*\\frac{\\partial }{\\partial \\theta_{i}}\\)"}</Eq><Eq>{"\\(\(Q_{prediction}-\\)"}</Eq><Eq>{"\\(\Q_{target})^2\\)"}</Eq></div>
+        <p>The <Eq>{"\\(\\alpha\\)"}</Eq> above is our trusted learning rate and as you can see it is multiplied by the gradient of the loss function with respect to the weight <Eq>{"\\(\ \\theta_{i}\\)"}</Eq>. I will not cover the math behind how much the adjustment of each weight affects the final loss, but if you are interested look up <b>'backpropagation'</b>. This is a key concept in the world of  neural networks and I recommend you to check it out! However, simply put, the equation above updates every weight in the network at a certain pace (controlled by the alpha value) to minimize the loss function. With enough updating of the weights, the goal is for <Eq>{"\\(\Q_{prediction}\\)"}</Eq> to approach the value of <Eq>{"\\(\Q_{target}\\)"}</Eq>. So far we have represented the state as a singular number, however there are many ways of representing state. Let's take a closer look at that!</p>
+      </> 
+   );
+}
+
+export const Page18 = () => {
+
+  return ( 
+      <>
+      <h2>Representing the state</h2>
+        <p>Hello there sir, I am here today representing the state. Bad joke? Ok, moving on! In our simple Grid World we represented the state as a number between <b>0-63</b>, depending on the position of the agent. This state representation could either be fed into the neural network as a single input, or as a one-hot encoded vector (an array of zeros, the length of the number states, with a 1 in the corresponding index). However there are many ways of representing state. Another could be attaching sensors to our agent, and letting it receive information about the world through these. In our simple Grid World, we might for example give our agent the ability to measure its distance to any object in all four directions. This would result in 4 inputs to our neural network. Let's think about this logically for a second. The distance to an object, such as a wall (which in our environment is equivalent to the boundary of the Grid) could be a useful piece of information, in order to avoid such collisions. With enough training a neural network could <b>learn to avoid a near collision</b>, by outputting a high Q-value corresponding to the action which would move the agent away from the danger. Actually, we haven't done a quiz in a while, so let's just make sure that you are on board. Let's say we have four inputs, corresponding to the proximity of a wall, in the directions [UP,DOWN,LEFT,RIGHT]. If a sensor reads 0, it means that the agent is in the outmost square in the corresponding direction. Since the grid is 8 by 8, these distances can range from 0-7 in each direction.</p>
+        <Quiz question='Given the input [4,3,0,7] what is the worst action the agent could perform?' answers={['GO UP','GO DOWN','GO LEFT','GO RIGHT']} correct={2} status={['Not quite, remember the inputs correspond to the distance to a wall in each direction. Since the agent is detecting a very close wall on the left, moving left would be the worst move, resulting in a penalty.','Exactly! You know your stuff.']}/>
+        <p>Now, think about what kind of information we are presenting our agent with. Even though the state is represented differently, the exact position of the agent, can actually still be deducted from these measures. So in a way we are still representing the position of the agent with the state. Don't believe me? Let's do another quiz. Don't worry if you don't get this one, I haven't explained how to figure this one out, but think about it for a second, and give it your best shot.</p>
+        <Quiz question='What x,y position corresponds to the sensor values [2,5,1,6]' answers={['x = 2, y = 5','x = 2, y = 3','x = 3, y = 6']} correct={1} status={['Nope, remember the inputs correspond to the distances in directions [UP,DOWN,LEFT,RIGHT]. We actually only need to look at 2 of the distances. If the boundary of the grid in the LEFT direction is 1 space away, the x position of the agent must be 2. Likewise, an UP value of 2 must mean that our y position is 3.',"Amazing! How'd you know?"]}/>
+        <p>Depending on the information contained in the state the agent might be better or worse at solving the given problem. In our simple Grid World for example, our agent started out mindlessly exploring the environment until it reached the goal state. After many iterations the reward of the goal state would bleed back into the steps needed to get there. This means that the agent only received feedback that it was doing well, when it reached the goal. Since the goal was kept at a static position, the agent would with time learn the optimal path by heart. However, in more complex environments where a larger amount of exploration is needed, it might be difficult for a little agent to find the goal in the first place. In this case, instead of telling the agent to know exactly where the goal is, we could allow it to continuously measure the distance to the goal. Instead of only receiving a living penalty of -1 until it reaches the goal, this would allow our agent to access if its actions are getting it closer to the goal.</p>
+        <p>Let's pause for a moment. <b>Imagine that you are the agent</b>. You are placed on a random square in the grid and given four sensors to access detect the proximity of the walls. Lastly, you are given a little armband which tells you the realtime distance to your goal. Even though knowing the distance to the walls and the goal might help you rule out section of the map, it doesn't tell you the exact location of the goal and it doesn't inform you which action will get you closer to it. Now, if swapped the distance to the goal with the direction of the goal, you would be able to use this guideline to steer your moves. This of course seems a bit like cheating, how are you learning anything if you are just following a needle on a compass? Well, that only seems easy for you because you have learned the concept of navigation. <b></b> The only thing the neural network is fed are the raw numbers, it is up to it to learn the <b>pattern behind the madness</b>. To try to predict the best moves, given the input information in order to tell the agent which action to perform.</p>
+        <p>As I mentioned in the beginning of this adventure, we need to be aware of how much information we allow our agent to access. In our simulations we have full information and can therefore, give the agent clues that might not be present in a real context. In some cases full information is an acceptable paradigm. If we for example want to teach a reinforcement agent to play the Atari classic 'breakout' we might just choose to give it vision. That sounds like something straight out of science fiction, but when I say vision I mean inputting the brightness values of each pixel in a recorded frame of the game into the neural network. To us this long list of values might be impossible to make sense of, since we are not used to receive visual information in this format. However it is still the same information, and if there is a pattern between what is seen and the actions taken (which there most definitely is) the neural network should be able to learn this pattern with time.</p>
+        <p>Wait a minute! Did I say that the pixel values of a frame contained the same information that we use when choosing our actions in a game of 'breakout'? Well, let's just think about that for a moment. A good habit when deciding on which information to feed a neural network in order to teach it something, is to ask yourself: <b>"Could I do solve the problem with the given information?"</b>. Feeding an entire frame of the game view into the network, might seem sufficient, but try and take a look at the screenshot on the right. Given this single frame, would you be able to decide what the optimal action would be. No, you are missing one part of very important information, the trajectory of the ball! We could present this information to the neural network in a matter of ways. We could add another input, representing the direction of the ball, and maybe even the velocity. However this might introduce an unfair advantage, depending on how important it is to us that the agent plays under the same conditions as a human player. There are of course still inequalities between the agent and the human player, since an agent isn't restricted by the same human limits, such as that of attention, reflexes etc. Another option is to present the network with <b>4 consecutive frames</b>, represented numerically. Again, we are not directly telling the agent how to interpret these values, but it will be able to learn this pattern on its own. Quite remarkable isn't it!</p>
+        <p>The representation of the state plays a big role in the neural networks ability to learn meaningful patterns and predict the best decision for the agent to make. Deciding when what information to offer and what information to restrain, can be a difficult task. But again, asking yourself what you would need to know to solve the problem, is a good place to start. Finally it is also possible to present the agent with partial information, in the form of restricting the extent of the information it receives. In our example with the wall sensors, we let our agent detect objects at infinite distance in each direction. We might instead want to limit this to a matter of a couple of squares. Especially in reinforcement learning for <b>application in robotics</b>, these limitations of information become real. A robot might actually be equipped with sensors, but the proximity information might only cover a certain radius. The more we hold the agents hand, the less it will be able to generalize to variations of the environment. This is an important takeaway, since finding the sweet spot, between a hint and answer, can be tricky.</p>
+        <p>So that got a bit long, but hopefully you get the point. We will train a neural network to estimate the Q-values of each action in a given state, and make the agent follow its orders. The process will be as follows:</p>
+        <ol>
+        <li>The agent performs an action.</li>
+        <li>The current state/action pair is observed, as well as the reward received and the new state that the agent transitions to.</li>
+        <li>The weights of the neural network are updated in order to minimize the loss function.</li>
+        </ol>
+        <p>There's one problem though. With the way that we are currently defining our learning process, the updating of the weights will be based on actions and states that are sequential. What do I mean by that? Well, if an agent takes a certain action, the new state that it lands in and the next action it will take, will be strongly correlated with the previous recent history of actions and states. This may seem logical, but using samples from sequential time steps can be detrimental to the learning process. To understand why, meet me on the other side. And hey, almost at page 20, I like your commitment!</p>
+      </> 
+   );
+}
+
+export const Page19 = () => {
+
+  return ( 
+      <>
+      <h2>Experience Replay</h2>
+      <p>When performing gradient descent, which is a fancy term for the calculation of which direction the weights of the neural network should be changed to minimize the loss function, it is assumed that the input data comes from a <b>random independent sample</b>. This is not the case in our learning strategy so far. Let us imagine that we are training an agent to drive a race car around a track. Our goal is for the agent to complete the entire track without crashing. The agent might be equipped with a set of sensors to access its distance to the sides. However if the first part of the track is straight, and the agent has learned to just drive forward, it will sample a lot of similar input, which will adjust the weights in the network to be very good at performing this one action. Then when a turn suddenly comes up, the agent will have to update its weights radically to account for this situation. This means that it might have to sacrifice some of the learning related to the previous scenario. This results in a noisy learning process where the agent is constantly trying to adapt to the circumstances, at the cost of <b>forgetting how to act</b> in others.</p>
+      <p>To deal with this correlation issue, we can save a bunch of previous observations / experiences, and pick a random sample to train our neural network on. We can store these experiences in something called the <b>Replay Buffer</b>. This buffer follows the FIFO principle (First in, first out) which means that we only store the last X number of experiences to sample from. The bigger the replay buffer, the bigger the chance that the experiences sampled will be independent of one another.</p>
+      <p>Another problem with our current strategy is the target Q-value that we are trying to approach. Remember that our update rule for the weights of the network was defined as:</p>
+      <div className="math-inline-container">
+        <Eq>{"\\(\ \\theta_{i} = \\theta_{i} - \\alpha\\)"}</Eq><Eq>{"\\(\*\\frac{\\partial }{\\partial \\theta_{i}}\\)"}</Eq><Eq>{"\\(\(Q_{prediction}-\\)"}</Eq><Eq>{"\\(\Q_{target})^2\\)"}</Eq></div>
+        <p>Usually the target of a neural network is a fixed value, and we have been treating it as such so far. When we are calculating the gradient of the loss function with respect to the weight <Eq>{"\\(\ \\theta_{i}\\)"}</Eq>, we are expecting the weights to only affect the <Eq>{"\\(\ Q_{prediction}\\)"}</Eq> part of the loss function. However since the target value contains the Q-values of a future state, it is also calculated based on the neural network and dependent on the weights. This can be referred to as a non-stationary target and results in an unstable learning process, where we are trying to learn patterns from a constantly changing input and target output.</p>
+        <p>So what can we do about that? Well, instead of using one neural network, we can use two! A target network and a prediction network. The target network will have the same architecture as the prediction network, but its <b>parameters will be frozen</b>, meaning that its weights won't be updated. For every K iterations the weights of the prediction network will be copied to the target network. This keeps the learning process from diverging, since the target value will be fixed for K iterations, allowing the prediction network to learn with stability. And that's it! Let's go over the final strategy, one last time:</p>
+        <ol>
+        <li>Initialize two neural networks, the target network and the prediction network.</li>
+        <li>Let the agent explore the environment until the replay buffer is filled.</li>
+        <li>Feed a batch of random samples from the replay buffer to our neural networks.</li>
+        <li>Use the output of the target network to train the prediction network</li>
+        <li>Use a exploration / exploitation strategy to choose the next action (either a random action, or the best action predicted by the Q-network, given the current state.</li>
+        <li>Save the old state, new state, action and reward in the replay buffer.</li>
+        <li>Every K iterations, copy the weights of the prediction network to the target network.</li>
+        </ol>
+        <p className="bottom"></p>
+      </> 
+   );
+}
+
+export const Page20 = () => {
+
+  return ( 
+      <>
+      <h2>Implementing Deep Q-Learning</h2>
+      <p>CONGRATULATIONS! You made it to page 20! There's nothing inherently special about that, it's just a number. But I feel like we have come a long way from where we started and I thought we deserved a little confetti. However, for now this is where our journey ends. This interactive report is continuously, and the implementation of Deep Q-learning is a topic which needs some more care.</p>
+      <p>Questions, suggestions, corrections and business inquiries are very welcome at <a href = "mailto: axelsorensenwork@gmail.com">axelsorensenwork@gmail.com</a></p>
+      </> 
+   );
+}
+
+// export const Page21 = () => {
+
+//   return ( 
+//       <>
+//       <h2>Implementing Deep Q-Learning</h2>
+//       <div className="codeBtnGroup bottom">
+//         <button className="codeBtn" onClick={()=> deep_q_learning()}><code>Run deep_q_learning()</code></button>
+//         <button className="codeBtn" onClick={()=> deep_reset()}><code>Stop training</code></button>
+//         <button className="codeBtn" onClick={()=> best_deep_agent()}><code>Run best_deep_agent()</code></button>
+//         </div>
+      
+    
+//       </> 
+//    );
+// }
+

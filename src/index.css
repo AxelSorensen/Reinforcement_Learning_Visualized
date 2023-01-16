@@ -78,8 +78,8 @@ html {
   height: 50vw;
   width: 50vw;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   
   display: grid;
   justify-content: center;
@@ -93,14 +93,14 @@ html {
   display: grid;
   width: 90%;
   height: 90%;
+  justify-content: center;
+  align-items: center;
 }
 
 #right-container > img {
   margin: auto;
   display: grid;
-
   width: 90%;
-
 }
 
 .img-container {
@@ -228,6 +228,9 @@ p {
 
 }
 
+a {
+  color: rgb(175, 13, 175);
+}
 
 
 img {
@@ -311,6 +314,10 @@ p,li > code {
   margin-bottom: 50px;
 }
 
+.no-bottom {
+  margin-bottom: 20px;
+}
+
 
 .quiz-container {
   background-color: #161616;
@@ -324,8 +331,28 @@ p,li > code {
   color: white;
 }
 
+.quiz-container-submitted {
+  background-color: #161616;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  padding: 20px 10px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.quiz-container-submitted > button {
+  background-color: rgb(100, 100, 100);
+  pointer-events: none;
+}
+
+.quiz-container > button {
+  background-color: rgb(169, 98, 244) !important;
+}
+
 .responseBtn {
-  background-color: rgb(169, 98, 244);
   color: white;
   text-align: center;
   height: 40px;
@@ -339,19 +366,19 @@ p,li > code {
 }
 
 .responseBtn:hover {
-  background-color: rgb(129, 65, 196);
+  background-color: rgb(129, 65, 196) !important; 
 
 }
 
+.disabled-button {
+  background-color: rgb(100, 100, 100);
+
+}
 
 .question {
   text-align: center;
 }
 
-.quiz-disabled > button {
-  background-color: rgb(100, 100, 100);
-  pointer-events: none;
-}
 
 .correct-answer.correct-answer {
   background-color: rgb(65, 196, 102);
@@ -374,6 +401,8 @@ p,li > code {
 
 
 .math-container {
+  padding: 8px 4px;
+  line-height: 40px;
   display: grid;
   justify-content: center;
   align-items: center;
@@ -381,15 +410,15 @@ p,li > code {
 
 }
 
-
-.math-container span {
+.math-inline-container {
   padding: 8px 4px;
   border-radius: 4px;
-  line-height: 60px;
+  line-height: 40px;
   text-align: center;
+  padding: 0;
+  margin-bottom: 20px;
 
 }
-
 
 .eq_1 {
   padding: 2px 5px;
@@ -488,6 +517,7 @@ li {
 }
 
 input[type=number] {
+  -moz-appearance:textfield;
   width: 50px;
   height: 40px;
   outline: none;
@@ -591,9 +621,18 @@ li {
     width: 80vw;
   }
 
-
-
 }
+
+#confetti-container {
+  position: absolute;
+
+  left: 50vw;
+}
+
+ul, ol  {
+  padding-left: 15px;
+}
+
 
 @media (pointer:none), (pointer:coarse) {
   #footer div:hover {

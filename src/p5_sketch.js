@@ -14,8 +14,7 @@ let winText = ['Well done!', 'Great job!', 'Awesome!', 'What a natural!', 'Still
 
 const s1 = (p5, canvasParentRef) => {
   
-
-  p5.textSize(10);
+  p5.textAlign(p5.CENTER)
   field.agent_position = [0, 0];
   winCount = 0;
   p5.createCanvas(canvasParentRef.offsetWidth-SF, canvasParentRef.offsetWidth-SF).parent(canvasParentRef);
@@ -46,8 +45,8 @@ const d1 = async (p5) => {
   if (done) {
 
     p5.fill('#28CC2D')
-
-    p5.text(winText[winCount], (field.size * gz) / 2, field.size * gz + 30)
+    p5.textSize(20);
+    p5.text(winText[winCount], (field.size * gz) / 2, field.size * gz + 25)
     winCount++;
     p5.circle(field.goal_position[0] * gz + gz / 2, field.goal_position[1] * gz + gz / 2, gz - 5, gz - 5);
     p5.fill(0)
@@ -76,7 +75,7 @@ const d1 = async (p5) => {
 
 const s2 = (p5,canvasParentRef) => {
   
-  p5.textSize(10);
+  p5.textSize(14);
   field.agent_position = [0, 0];
   winCount = 0;
   // use parent to render the canvas in this ref
@@ -110,9 +109,9 @@ const d2 = async (p5) => {
   if (done) {
 
     p5.fill('#28CC2D')
-    p5.text('Reward = ' + reward, 0, field.size * gz + 20)
+    p5.text('Reward = ' + reward, 0, field.size * gz + 15)
     p5.text('Done = ' + done, 0, field.size * gz + 30)
-    p5.text('Steps: ' + steps, 0, field.size * gz + 40)
+    p5.text('Steps: ' + steps, 0, field.size * gz + 45)
     winCount++;
     p5.circle(field.goal_position[0] * gz + gz / 2, field.goal_position[1] * gz + gz / 2, gz - 5, gz - 5);
 
@@ -128,9 +127,9 @@ const d2 = async (p5) => {
     p5.fill('#FFE135')
     p5.circle(field.goal_position[0] * gz + gz / 2, field.goal_position[1] * gz + gz / 2, gz - 5, gz - 5);
     p5.fill('#000000')
-    p5.text('Reward = ' + reward, 0, field.size * gz + 20)
+    p5.text('Reward = ' + reward, 0, field.size * gz + 15)
     p5.text('Done = ' + done, 0, field.size * gz + 30)
-    p5.text('Steps: ' + steps, 0, field.size * gz + 40)
+    p5.text('Steps: ' + steps, 0, field.size * gz + 45)
 
   }
 
@@ -268,6 +267,7 @@ const d4 = (p5) => {
       p5.text(i * iterations/10, i * iterations/10 *(field.size * gz) / (steps_graph.length - 1), field.size * gz + 15);
     }
   }
+  p5.textSize(14)
   p5.strokeWeight(0)
   p5.fill(255)
   p5.rect(field.size * gz+20, 0, field.size * gz+50, field.size * gz+50)

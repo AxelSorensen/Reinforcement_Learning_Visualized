@@ -1,3 +1,5 @@
+import { DQN_Agent } from "./DQN_Agent";
+
 let reward = 0;
 let done = false;
 
@@ -59,9 +61,9 @@ let goal_position = [4, 5];
 let q_table = [];
 
 class Field {
-  constructor(size, start_position, item_pickup) {
+  constructor(size, start_position, goal_position) {
     this.size = size;
-    this.goal_position = item_pickup;
+    this.goal_position = goal_position;
     this.agent_position = start_position;
 
   }
@@ -73,6 +75,23 @@ class Field {
   get_state() {
     let state = this.agent_position[0] * this.size + this.agent_position[1]
     return state;
+  }
+
+  get_deep_state() {
+    let sensorUp = this.agent_position[1]+1;
+    let sensorDown = this.size - this.agent_position[1]+1;
+    let sensorLeft = this.agent_position[0]+1;
+    let sensorRight = this.size - this.agent_position[0]+1;
+    let goalDirection = Math.atan2(this.goal_position[1] - this.agent_position[1], this.goal_position[0] - this.agent_position[0]) * 180 / Math.PI;
+    let dir1 = 0 < goalDirection && goalDirection <= 45;
+    let dir2 = 45 < goalDirection && goalDirection <= 90;
+    let dir3 = 90 < goalDirection && goalDirection <= 135;
+    let dir4 = 135 < goalDirection && goalDirection <= 180;
+    let dir5 = -45 < goalDirection && goalDirection <= 0;
+    let dir6 = -90 < goalDirection && goalDirection <= -45;
+    let dir7 = -135 < goalDirection && goalDirection <= -90;
+    let dir8 = -180 <= goalDirection && goalDirection <= -135;
+    return [dir1,dir2,dir3,dir4,dir5,dir6,dir7,dir8]
   }
 
   make_action(action) {
@@ -117,10 +136,15 @@ class Field {
     if (this.agent_position[0] == this.goal_position[0] && this.agent_position[1] == this.goal_position[1]) {
       reward = 20;
       done = true;
-      if(doneCheck) {
+      if (doneCheck) {
         field.agent_position = [Math.floor(Math.random() * field.size), Math.floor(Math.random() * field.size)]
       }
 
+    } else {
+      // let a = Math.abs(this.agent_position[0] - this.goal_position[0])
+      // let b = Math.abs(this.agent_position[1] - this.goal_position[1])
+      // let distanceToGoal = Math.hypot(a, b);
+      // reward += distanceToGoal/this.size;
     }
     return [reward, done]
   }
@@ -214,6 +238,110 @@ async function q_learning() {
   return steps;
 }
 
+//############# DEEP Q LEARNING #####################
+// let agent = new DQN_Agent();
+
+let episodes = 0;
+
+async function deep_q_learning() {
+  stop_train = false;
+  let alpha = 0.1;
+  epsilon = 1
+  let EPSILON_DECAY = 0.99975
+  let MIN_EPSILON = 0.001
+  let gamma = 0.9;
+  let iterations = 1000
+
+  for (let i = 0; i < iterations; i++) {
+    if (stop_train) {
+      break;
+    }
+    //console.log('1 layer',agent.model.getWeights()[0].dataSync());
+    //console.log('2 layer',agent.model.getWeights()[2].dataSync());
+    steps = 0;
+    done = false;
+    reward = 0;
+    let action;
+    //console.log('above',agent.get_qs([4,3,4,3,[3,2]]))
+    //console.log('below',agent.get_qs([6,1,4,3,[2,6]]))
+    while (!done) {
+      if (stop_train) {
+        break;
+      }
+      await wait(1)
+      let current_state = field.get_deep_state();
+      if (Math.random() < epsilon) {
+        action = Math.floor(Math.random() * 4);
+      }
+      else {
+        let current_qs = agent.get_qs(current_state);
+        if(isNaN(current_qs[0])) {
+          console.log('Values are Nan')
+          console.log(current_qs)
+          console.log("state: ",current_state)
+          stop_train = true;
+        }
+        let max_index = Math.max(...current_qs);
+        action = current_qs.indexOf(max_index);
+      }
+      let action_result = field.make_action(action);
+      reward = action_result[0];
+      done = action_result[1];
+
+      let new_state = field.get_deep_state();
+
+      agent.update_replay_memory([current_state, action, reward, new_state, done])
+
+      await agent.train(done);
+
+
+    }
+    // field.agent_position = [0,0]
+    field.agent_position = [Math.floor(Math.random() * field.size), Math.floor(Math.random() * field.size)]
+    field.goal_position = [Math.floor(Math.random() * field.size), Math.floor(Math.random() * field.size)]
+    if (epsilon > MIN_EPSILON) {
+      epsilon *= EPSILON_DECAY
+      epsilon = Math.max(MIN_EPSILON, epsilon)
+    }
+    episodes += 1;
+    console.log("episode: ",episodes)
+  }
+  console.log('training done')
+
+}
+
+async function best_deep_agent() {
+  stop_train = false;
+  // field.agent_position = [0,0]
+  field.agent_position = [Math.floor(Math.random() * field.size), Math.floor(Math.random() * field.size)]
+  field.goal_position = [Math.floor(Math.random() * field.size), Math.floor(Math.random() * field.size)]
+
+  steps = 0;
+  reward = 0;
+  done = false;
+  let action;
+
+  while (!done) {
+    if (stop_train) {
+      break;
+    }
+    await wait(100)
+    let current_state = field.get_deep_state();
+
+    let current_qs = agent.get_qs(current_state);
+    let max_index = Math.max(...current_qs);
+    action = current_qs.indexOf(max_index);
+    let action_result = field.make_action(action);
+    reward = action_result[0];
+    done = action_result[1];
+
+    steps += 1;
+
+
+  }
+  return steps;
+}
+
 async function best_agent(time) {
   stop_train = false;
   steps = 0;
@@ -251,11 +379,16 @@ function stop_training(bool) {
   stop_train = bool;
 }
 
+function deep_reset() {
+  stop_training(true);
+  done = false;
+}
+
 function reset() {
   reset_q_table();
   stop_training(true);
   steps_history = [];
-  field.agent_position = [0,0]
+  field.agent_position = [0, 0]
   done = false;
 }
 
@@ -267,17 +400,16 @@ function reset_parameters() {
   reset_q_table();
   stop_training(true);
   steps_history = [];
-  field.agent_position = [0,0]
+  field.agent_position = [0, 0]
   done = false;
 }
 
 let iterations = 100;
 
 async function start_training(iterations) {
-  console.log(alpha,gamma,epsilon)
   stop_train = false;
   for (let i = 0; i < iterations; i++) {
-    if(stop_train) {
+    if (stop_train) {
       break;
     }
     steps = await q_learning();
@@ -288,6 +420,10 @@ async function start_training(iterations) {
 
 }
 
+function stop_deep_training(bool) {
+  stop_train = bool;
+}
+
 async function wait(time) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -296,4 +432,4 @@ async function wait(time) {
   });
 }
 
-export {field,wait,steps,done,reward,q_learning,best_agent,naive_solution,reset_text,q_table,run_q_learning, start_training, stop_training, reset,iterations,steps_history, alpha, gamma, epsilon, setAlpha, setGamma,setEpsilon, setPlaySpeed, setIterations, waitAfterDone, waitTime, doneCheck, setDoneCheck, setWaitTime,setWaitAfterDone,setDone, reset_parameters}
+export { field, wait, steps, done, reward, q_learning, best_agent, naive_solution, reset_text, q_table, run_q_learning, start_training, stop_training, reset, iterations, steps_history, alpha, gamma, epsilon, setAlpha, setGamma, setEpsilon, setPlaySpeed, setIterations, waitAfterDone, waitTime, doneCheck, setDoneCheck, setWaitTime, setWaitAfterDone, setDone, reset_parameters, deep_q_learning, best_deep_agent, stop_deep_training, deep_reset }

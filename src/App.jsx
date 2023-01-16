@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 import { stop_training } from './Field'
 
-
+import ConfettiExplosion from 'react-confetti-explosion';
 
 import SketchManager from './SketchManager'
 import RightManager from './RightManager'
@@ -25,6 +25,8 @@ function App() {
 
   const changePage = (direction) => {
     setPage(page+direction);
+
+    // localStorage.setItem('page',page);
   }
 
   useEffect(()=> {
@@ -37,9 +39,12 @@ function App() {
 
   return (
     <div id="App">
+            {page == 20 && <div id='confetti-container'>
+          <ConfettiExplosion width={2000}/></div>}
       <div id='left'>
         <div id='left-content'>
         <div id='header'>
+          
           <h1>Reinforcement Learning Visualized</h1>
           <p id='byline'>Written and programmed by Axel Sorensen</p>
         </div>
@@ -49,7 +54,7 @@ function App() {
         <div id='footer'>
             <div className={page == 0 ? 'disabled' : ''} onClick={()=> changePage(-1)}>&#60;</div>
             {page}
-            <div id='backward' onClick={()=> changePage(1)}>&#62;
+            <div id='backward' className={page == 20 ? 'disabled' : ''} onClick={()=> changePage(1)}>&#62;
             </div>
         </div>
         </div>

@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "better-react-mathjax": "^2.0.3",
     "react": "^18.2.0",
     "react-confetti-explosion": "^1.5.1",
     "react-dom": "^18.2.0",
+    "react-p5": "^1.4.1",
+    "react-syntax-highlighter": "^15.5.0",
     "underscore": "^1.13.6"
   },
   "devDependencies": {

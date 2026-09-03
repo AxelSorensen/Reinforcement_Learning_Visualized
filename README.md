@@ -33,4 +33,4 @@ Vite will print a local URL (default [http://localhost:5173](http://localhost:51
 
 ## Status
 
-🧪 Finished as a self-contained explainer/demo — content and page count are hardcoded (20 pages), and there's no persistence of training progress between sessions.
+🔧 Was broken — `package.json` was missing three runtime dependencies (`react-p5`, `better-react-mathjax`, `react-syntax-highlighter`) actually imported by the source, causing Vite to fail resolving them at dev-server startup. Fixed by adding them to `dependencies`. Verified: `npm install && npm run dev` now serves cleanly at `http://localhost:5173/Reinforcement_Learning_Visualized/` (as of 2026-09-03). Finished as a self-contained explainer/demo — content and page count are hardcoded (20 pages), and there's no persistence of training progress between sessions.

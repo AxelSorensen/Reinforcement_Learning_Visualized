@@ -2,6 +2,8 @@
 
 An interactive, page-by-page explainer of Deep Q-Learning with a live agent you can train and watch inside the browser.
 
+![Reinforcement Learning Visualized screenshot](docs/screenshot.png)
+
 ## Features
 
 - 📖 **Guided walkthrough** — a paginated explanation (with code snippets and equations) of how DQN works, page by page
